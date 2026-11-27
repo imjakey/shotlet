@@ -57,8 +57,10 @@ class ReleasePackageTest(unittest.TestCase):
             self.assertEqual(package.read(f"{name}/resources/中文.txt").decode(), "运行时资源")
             for _, destination in RELEASE.LICENSE_FILES:
                 self.assertIn(f"{name}/{destination}", package.namelist())
-        checksum = archive.with_suffix(".zip.sha256").read_text(encoding="utf-8")
-        self.assertEqual(checksum, f"{hashlib.sha256(archive.read_bytes()).hexdigest()}  {archive.name}\n")
+        # 按原始字节验证换行，避免文本读取自动规范化 CRLF 后掩盖 Windows 回归。
+        checksum = archive.with_suffix(".zip.sha256").read_bytes()
+        expected_checksum = f"{hashlib.sha256(archive.read_bytes()).hexdigest()}  {archive.name}\n"
+        self.assertEqual(checksum, expected_checksum.encode("utf-8"))
 
     def test_missing_license_preserves_previous_package(self):
         self.output.mkdir()

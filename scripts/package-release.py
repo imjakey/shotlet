@@ -89,7 +89,8 @@ def package_release(build, output, target, version):
             for chunk in iter(lambda: source.read(HASH_CHUNK_BYTES), b""):
                 digest.update(chunk)
         checksum = staging / f"{name}.zip.sha256"
-        checksum.write_text(f"{digest.hexdigest()}  {archive.name}\n", encoding="utf-8")
+        # 固定 LF 换行，确保 macOS 的 shasum 不会把 Windows 的回车当作文件名。
+        checksum.write_text(f"{digest.hexdigest()}  {archive.name}\n", encoding="utf-8", newline="\n")
         archive.replace(output / archive.name)
         checksum.replace(output / checksum.name)
     print(f"Release package created: {output / archive.name}")
