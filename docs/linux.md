@@ -18,8 +18,8 @@
 DEB 包可安装到基于 Debian 软件包体系的麒麟／UOS 桌面：
 
 ```sh
-sudo apt install ./shotlet-0.1.0-linux-amd64.deb
-# ARM64 机器改为 shotlet-0.1.0-linux-arm64.deb；版本以实际构建为准
+sudo apt install ./shotlet-0.1.1-linux-amd64.deb
+# ARM64 机器改为 shotlet-0.1.1-linux-arm64.deb；版本以实际构建为准
 shotlet --language zh-CN --theme auto
 ```
 
@@ -30,20 +30,20 @@ TGZ 包保持相同的安装目录结构，可直接运行其中的 `usr/bin/sho
 `scripts/test-linux-tarball.sh` 可以验证并解压 TGZ、检查实际 ELF 架构和依赖、启动截图测试，然后检查 PNG 签名、尺寸、分块和 IEND；安装了 `pngcheck` 时还会校验 CRC 与图像数据。截图内容、中文和标注效果仍需目视确认。无需 root，不修改 HOME；日志、设置和截图写入独立结果目录。
 
 ```sh
-bash scripts/test-linux-tarball.sh /path/to/shotlet-0.1.0-linux-amd64.tar.gz
+bash scripts/test-linux-tarball.sh /path/to/shotlet-0.1.1-linux-amd64.tar.gz
 # 只做预检，不打开截图界面：
-bash scripts/test-linux-tarball.sh /path/to/shotlet-0.1.0-linux-amd64.tar.gz --check-only
+bash scripts/test-linux-tarball.sh /path/to/shotlet-0.1.1-linux-amd64.tar.gz --check-only
 # 仅校验、解压和打印程序路径，不执行程序：
-bash scripts/test-linux-tarball.sh /path/to/shotlet-0.1.0-linux-amd64.tar.gz --prepare-only
+bash scripts/test-linux-tarball.sh /path/to/shotlet-0.1.1-linux-amd64.tar.gz --prepare-only
 # 强制 CPU 软件渲染：
-bash scripts/test-linux-tarball.sh /path/to/shotlet-0.1.0-linux-amd64.tar.gz --software
+bash scripts/test-linux-tarball.sh /path/to/shotlet-0.1.1-linux-amd64.tar.gz --software
 ```
 
 测试脚本只需要 Bash 和常见系统命令，不调用 Python。构建机上可以用下列命令生成测试包，加入一个架构的 TGZ，或同时加入同版本的两个架构：
 
 ```sh
 python3 scripts/package-linux-testkit.py \
-  --packages dist/linux/shotlet-0.1.0-linux-amd64.tar.gz dist/linux/shotlet-0.1.0-linux-arm64.tar.gz \
+  --packages dist/linux/shotlet-0.1.1-linux-amd64.tar.gz dist/linux/shotlet-0.1.1-linux-arm64.tar.gz \
   --output dist/linux/shotlet-linux-testkit.tar.gz
 ```
 
